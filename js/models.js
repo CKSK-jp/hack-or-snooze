@@ -25,7 +25,8 @@ class Story {
 
   getHostName() {
     // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    const hostName = new URL(this.url);
+    return hostName.host;
   }
 }
 
@@ -59,6 +60,8 @@ class StoryList {
       method: "GET",
     });
 
+    console.log(response.data.stories);
+
     // turn plain old story objects from API into instances of Story class
     const stories = response.data.stories.map(story => new Story(story));
 
@@ -73,8 +76,17 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  async addStory( /* user, newStory */) {
+  async addStory(user, newStory) {
     // UNIMPLEMENTED: complete this function!
+    const story1 = new Story({
+      storyId: 0,
+      title: newStory.title,
+      author: newStory.author,
+      url: newStory.url,
+      username: user,
+      createdAt: null
+    })
+    console.log(user, newStory);
   }
 }
 
@@ -122,6 +134,7 @@ class User {
       method: "POST",
       data: { user: { username, password, name } },
     });
+    console.log(response);
 
     let { user } = response.data
 

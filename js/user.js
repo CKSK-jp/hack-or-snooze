@@ -58,6 +58,7 @@ $signupForm.on("submit", signup);
 
 function logout(evt) {
   console.debug("logout", evt);
+  $mainNav.hide();
   localStorage.clear();
   location.reload();
 }

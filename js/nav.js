@@ -20,6 +20,7 @@ function navLoginClick(evt) {
   console.debug("navLoginClick", evt);
   hidePageComponents();
   $loginForm.show();
+  $mainNav.show();
   $signupForm.show();
 }
 
@@ -34,3 +35,30 @@ function updateNavOnLogin() {
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
+
+// show add-story form on click
+$body.on('click', '.add-story', function () {
+  console.debug("showAddStoriesForm");
+  $addStoryForm.show();
+  console.log(currentUser);
+});
+
+// createStory builds story object and runs addStory
+
+function createStory() {
+  const author = $('#author-input').val();
+  const title = $('#title-input').val();
+  const url = $('#url-input').val();
+  const newStory = {
+    author,
+    title,
+    url
+  }
+  console.log(currentUser);
+  storyList.addStory(currentUser, newStory);
+}
+
+// run createStory when add-story submit button is clicked
+$addStoryForm.on('submit', createStory);
+
+
