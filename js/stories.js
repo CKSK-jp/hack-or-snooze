@@ -50,3 +50,23 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+// createStory builds story object and runs addStory
+
+async function createStory(e) {
+  e.preventDefault();
+  const author = $('#author-input').val();
+  const title = $('#title-input').val();
+  const url = $('#url-input').val();
+  const newStory = {
+    author,
+    title,
+    url
+  }
+  const createdStory = await storyList.addStory(currentUser, newStory);
+  storyList.stories.push(createdStory);
+  console.log(storyList.stories)
+}
+
+// run createStory when add-story submit button is clicked
+$addStoryForm.on('submit', createStory);

@@ -60,8 +60,6 @@ class StoryList {
       method: "GET",
     });
 
-    console.log(response.data.stories);
-
     // turn plain old story objects from API into instances of Story class
     const stories = response.data.stories.map(story => new Story(story));
 
@@ -77,16 +75,34 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
-    // UNIMPLEMENTED: complete this function!
-    const story1 = new Story({
-      storyId: 0,
-      title: newStory.title,
-      author: newStory.author,
-      url: newStory.url,
-      username: user,
-      createdAt: null
-    })
-    console.log(user, newStory);
+    const { author, title, url } = newStory;
+
+    try {
+      const response = await axios.post(`${BASE_URL}/stories`,
+        {
+          token: user.loginToken,
+          story: {
+            author, 
+            title, 
+            url
+          },
+        });
+
+      const storyData = response.data.story;
+
+      const story = new Story({
+        storyId: storyData.storyId,
+        author,
+        title,
+        url,
+        username: user.username,
+        createdAt: storyData.createdAt
+      });
+      return story;
+    } catch (error) {
+      console.log(error.response.data);
+      throw error;
+    }
   }
 }
 
@@ -102,13 +118,13 @@ class User {
    */
 
   constructor({
-                username,
-                name,
-                createdAt,
-                favorites = [],
-                ownStories = []
-              },
-              token) {
+    username,
+    name,
+    createdAt,
+    favorites = [],
+    ownStories = []
+  },
+    token) {
     this.username = username;
     this.name = name;
     this.createdAt = createdAt;
