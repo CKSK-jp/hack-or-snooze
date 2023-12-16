@@ -20,12 +20,20 @@ async function getAndShowStoriesOnStart() {
  */
 
 function generateStoryMarkup(story) {
-  // console.debug("generateStoryMarkup", story);
+  console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
+  let starTag = '';
+
+  if (currentUser.favorites.includes(story)) {
+    starTag = '<span class="star"><i class="fa-star fas"></i></span>';
+  } else {
+    starTag = '<span class="star"><i class="fa-star far"></i></span>';
+  }
+
   return $(`
       <li id="${story.storyId}">
-        <span class="star"><i class="fa-star far"></i></span>
+        ${starTag}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -92,7 +100,7 @@ async function createStory() {
 $addStoryForm.on('submit', createStory);
 
 
-function makeFavorite(id) {
+function toggleFavorite(id) {
   const selectedStory = storyList.stories.find((story) => {
     return story.storyId === id;
   });
@@ -108,7 +116,14 @@ function makeFavorite(id) {
 
 //toggle favorite star handle
 $allStoriesList.on('click', '.star', function () {
-  console.log($(this).children().toggleClass('far fas'));
+  $(this).children().toggleClass('far fas');
   const selectedStoryId = $(this).parent().attr('id');
-  makeFavorite(selectedStoryId);
+  toggleFavorite(selectedStoryId);
+});
+
+//toggle favorite in favorite ui
+$favoriteStories.on('click', '.star', function () {
+  $(this).children().toggleClass('far fas');
+  const selectedStoryId = $(this).parent().attr('id');
+  toggleFavorite(selectedStoryId);
 });
