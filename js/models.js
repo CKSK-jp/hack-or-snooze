@@ -24,7 +24,6 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // UNIMPLEMENTED: complete this function!
     const hostName = new URL(this.url);
     return hostName.host;
   }
@@ -82,28 +81,31 @@ class StoryList {
         {
           token: user.loginToken,
           story: {
-            author, 
-            title, 
+            author,
+            title,
             url
           },
         });
 
-      const storyData = response.data.story;
+      console.log(response);
+      let { story } = response.data;
 
-      const story = new Story({
-        storyId: storyData.storyId,
+      const newStory = new Story({
+        storyId: story.storyId,
         author,
         title,
         url,
         username: user.username,
-        createdAt: storyData.createdAt
+        createdAt: story.createdAt
       });
-      return story;
+      return newStory;
     } catch (error) {
-      console.log(error.response.data);
+      console.log(error.response);
       throw error;
     }
   }
+
+   
 }
 
 
