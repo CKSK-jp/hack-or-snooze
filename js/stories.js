@@ -6,7 +6,6 @@ let storyList;
 /** Get and show stories when site first loads. */
 
 async function getAndShowStoriesOnStart() {
-  console.log('getting stories');
   storyList = await StoryList.getStories();
   $storiesLoadingMsg.remove();
 
@@ -52,7 +51,7 @@ function generateStoryMarkup(story) {
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
 function putStoriesOnPage() {
-  console.debug("putStoriesOnPage");
+  // console.debug("putStoriesOnPage");
 
   $allStoriesList.empty();
 
@@ -85,7 +84,7 @@ function renderFavorites() {
 /** Generates page with list of stories user uploaded */
 
 function renderMyStories() {
-  console.log('rendering stories');
+  // console.log('rendering stories');
   $myStories.empty();
 
   // loop through all of our stories and generate HTML for them
@@ -138,7 +137,7 @@ async function handleStarClick() {
 
     // re-render instance of User 
     currentUser = await User.loginViaStoredCredentials(currentUser.loginToken, currentUser.username);
-    console.log(currentUser);
+    // console.log(currentUser);
 
   } catch (error) {
     console.error(error);
@@ -148,13 +147,19 @@ async function handleStarClick() {
 //toggle favorite star handle
 $body.on('click', '.star', handleStarClick);
 
+// initiates the removal for selected story
 async function removeUserStory() {
   const storyId = ($(this).parent().attr('id'));
+  const storiesIndex = storyList.stories.map(story => story.storyId);
+  const storyIndex = storiesIndex.indexOf(storyId);
+  storyList.stories
+  if (storyIndex !== -1) {
+    storyList.stories.splice(storyIndex, 1)
+  }
   await storyList.removeStory(currentUser.loginToken, storyId);
 
   // re-render instance of User 
   currentUser = await User.loginViaStoredCredentials(currentUser.loginToken, currentUser.username);
-  console.log(currentUser);
 
   // re-render myStories UI
   renderMyStories();
