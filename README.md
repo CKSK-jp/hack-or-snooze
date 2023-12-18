@@ -10,3 +10,9 @@ Section I Final Project
 - Implementation of favorite story functionality
 - Users can now click a star on the title to add the story to their favorites list
 - UI, nav bar addition of favorites list
+
+## Changelog 2023-12-18
+- Refactoring of User class to remove repetitive code
+- Implementation of updateUserInstance() to agglomerate changes to current user class
+- Improved handling of updating favorited stories and removing from favorited
+- Nav bar functionality when user logs out and what changes and gets saved
