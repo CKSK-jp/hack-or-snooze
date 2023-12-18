@@ -108,7 +108,20 @@ class StoryList {
     }
   }
 
-
+  async removeStory(token, storyId) {
+    console.log('attempting to remove');
+    try {
+      await axios({
+        url: `${BASE_URL}/stories/${storyId}`,
+        method: 'DELETE',
+        data: {
+          token
+        }
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 
@@ -142,17 +155,17 @@ class User {
     this.loginToken = token;
   }
 
-  static async updateUserInstance (response, token) {
+  static async updateUserInstance(response, token) {
     const user = response.data.user;
 
     return new User({
       username: user.username,
       name: user.name,
       createdAt: user.createdAt,
-      favorites:user.favorites,
+      favorites: user.favorites,
       ownStories: user.stories,
     },
-    token);
+      token);
   }
 
   /** Register new user in API, make User instance & return it.
@@ -222,14 +235,13 @@ class User {
   }
 
   // makes a post request to remove story from user favorite list
-  static async removeFromFavorites(storyId, username, token) 
-  {
+  static async removeFromFavorites(storyId, username, token) {
     const response = await axios({
       url: `${BASE_URL}/users/${username}/favorites/${storyId}`,
       method: "DELETE",
       data: { token },
     });
-    
+
     console.log(response);
     return this.updateUserInstance(response, response.data.token);
   }

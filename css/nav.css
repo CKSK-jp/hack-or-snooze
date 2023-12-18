@@ -2,10 +2,11 @@
 
 nav {
   display: flex;
-  background-color: #ff6600;
+  background-color: hsl(24, 100%, 50%);
   align-items: center;
   padding: 5px 20px;
   border-radius: 3px 3px 0 0;
+  height: 10vh;
 }
 
 main-nav {

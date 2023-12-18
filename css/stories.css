@@ -32,14 +32,39 @@
 
 .story-author {
   margin-left: 2em;
+  color: green;
 }
 
 .story-user {
+  margin-left: 2em;
   display: block;
+  color: orange;
 }
 
-/* favorite star */
+hr {
+  margin-top: 10px;
+  border: 0.1px solid lightgray;
+}
+
+/* trash and star */
+
+.fa-star:hover,
+.fa-trash-alt:hover {
+  cursor: pointer;
+}
 
 .fa-star:hover {
-  cursor: pointer;
+  color: black;
+}
+
+.fa-trash-alt:hover {
+  color: red;
+}
+
+span {
+  margin: 0 1px;
+}
+
+p {
+  margin: 5px 0;
 }

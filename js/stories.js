@@ -24,6 +24,8 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
   let favorited = false;
   let starTag = '';
+  let trashTag = '';
+
   if (currentUser) {
     const favStoryIds = currentUser.favorites.map(story => story.storyId);
     favorited = favStoryIds.includes(story.storyId);
@@ -34,13 +36,15 @@ function generateStoryMarkup(story) {
 
   return $(`
       <li id="${story.storyId}">
+        ${trashTag}
         ${starTag}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
         <small class="story-hostname">(${hostName})</small>
-        <small class="story-author">by ${story.author}</small>
+        <p><small class="story-author">by ${story.author}</small></p>
         <small class="story-user">posted by ${story.username}</small>
+        <hr>
       </li>
     `);
 }
@@ -73,7 +77,7 @@ function renderFavorites() {
       $favoriteStories.append($story);
     }
   } else {
-    $favoriteStories.append('<h5>No Stories Added!</h5>');
+    $favoriteStories.append('<h5>No Favorite Stories Added!</h5>');
   }
   $favoriteStories.show();
 }
@@ -81,16 +85,18 @@ function renderFavorites() {
 /** Generates page with list of stories user uploaded */
 
 function renderMyStories() {
+  console.log('rendering stories');
   $myStories.empty();
 
   // loop through all of our stories and generate HTML for them
   if (currentUser.ownStories.length > 0) {
     for (let story of currentUser.ownStories) {
       const $story = generateStoryMarkup(story);
+      $story.prepend('<span class="trash"><i class="fas fa-trash-alt"></i></span>');
       $myStories.append($story);
     }
   } else {
-    $myStories.append('<h5>No Stories Added!</h5>');
+    $myStories.append('<h5>No Stories Uploaded!</h5>');
   }
   $myStories.show();
 }
@@ -141,3 +147,18 @@ async function handleStarClick() {
 
 //toggle favorite star handle
 $body.on('click', '.star', handleStarClick);
+
+async function removeUserStory() {
+  const storyId = ($(this).parent().attr('id'));
+  await storyList.removeStory(currentUser.loginToken, storyId);
+
+  // re-render instance of User 
+  currentUser = await User.loginViaStoredCredentials(currentUser.loginToken, currentUser.username);
+  console.log(currentUser);
+
+  // re-render myStories UI
+  renderMyStories();
+}
+
+//listen for click on trash
+$body.on('click', '.trash', removeUserStory);
