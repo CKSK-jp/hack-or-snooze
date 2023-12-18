@@ -18,3 +18,8 @@ Section I Final Project
 - Nav bar functionality when user logs out and what changes and gets saved
 - completion of remove story function
 - css styling based on mock-up
+
+
+### Hotfixes:
+- fixed issue where removed stories persisted until page reload
+- fixed issue where adding user story would not appear on main page until reload
