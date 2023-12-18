@@ -40,10 +40,19 @@ $body.on('click', '.add-story', function () {
   console.debug("showAddStoriesForm");
   hidePageComponents();
   $addStoryForm.show();
+  $allStoriesList.show();
 });
 
-// show add-story ui form on click
+// show user-favorites ui on click
 $body.on('click', '.favorites', function () {
   hidePageComponents();
   renderFavorites();
 });
+
+// show my-stories ui on click
+$body.on('click', '.my-stories', function () {
+  hidePageComponents();
+  renderMyStories();
+});
+
+
