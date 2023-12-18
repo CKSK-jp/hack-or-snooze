@@ -16,3 +16,5 @@ Section I Final Project
 - Implementation of updateUserInstance() to agglomerate changes to current user class
 - Improved handling of updating favorited stories and removing from favorited
 - Nav bar functionality when user logs out and what changes and gets saved
+- completion of remove story function
+- css styling based on mock-up
