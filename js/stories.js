@@ -23,7 +23,6 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
   let favorited = false;
   let starTag = '';
-  let trashTag = '';
 
   if (currentUser) {
     const favStoryIds = currentUser.favorites.map(story => story.storyId);
@@ -35,23 +34,28 @@ function generateStoryMarkup(story) {
 
   return $(`
       <li id="${story.storyId}">
-        ${trashTag}
-        ${starTag}
-        <a href="${story.url}" target="a_blank" class="story-link">
-          ${story.title}
-        </a>
-        <small class="story-hostname">(${hostName})</small>
-        <p><small class="story-author">by ${story.author}</small></p>
-        <small class="story-user">posted by ${story.username}</small>
-        <hr>
+        <div id="nice-format">
+          <span>
+            ${starTag}
+          </span>
+          <div>
+            <a href="${story.url}" target="a_blank" class="story-link">
+              ${story.title}
+            </a>
+            <small class="story-hostname">(${hostName})</small>
+            <p><small class="story-author">by ${story.author}</small></p>
+            <small class="story-user">posted by ${story.username}</small>
+          </div>
+        </div>
       </li>
+      <hr>
     `);
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
 function putStoriesOnPage() {
-  // console.debug("putStoriesOnPage");
+  console.debug("putStoriesOnPage");
 
   $allStoriesList.empty();
 
@@ -84,14 +88,13 @@ function renderFavorites() {
 /** Generates page with list of stories user uploaded */
 
 function renderMyStories() {
-  // console.log('rendering stories');
   $myStories.empty();
 
   // loop through all of our stories and generate HTML for them
   if (currentUser.ownStories.length > 0) {
     for (let story of currentUser.ownStories) {
       const $story = generateStoryMarkup(story);
-      $story.prepend('<span class="trash"><i class="fas fa-trash-alt"></i></span>');
+      $story.children(":first-child").children(":first-child").prepend('<span class="trash"><i class="fas fa-trash-alt"></i></span>');
       $myStories.append($story);
     }
   } else {
@@ -153,9 +156,9 @@ async function removeUserStory() {
   const storiesIndex = storyList.stories.map(story => story.storyId);
   const storyIndex = storiesIndex.indexOf(storyId);
   storyList.stories
-  if (storyIndex !== -1) {
-    storyList.stories.splice(storyIndex, 1)
-  }
+  // if (storyIndex !== -1) {
+  //   storyList.stories.splice(storyIndex, 1)
+  // }
   await storyList.removeStory(currentUser.loginToken, storyId);
 
   // re-render instance of User 

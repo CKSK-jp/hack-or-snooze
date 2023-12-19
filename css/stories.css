@@ -10,6 +10,10 @@
   margin: 10px 0;
 }
 
+#nice-format {
+  display: flex
+}
+
 #stories-loading-msg {
   font-weight: bold;
   font-size: 150%;
@@ -31,12 +35,10 @@
 }
 
 .story-author {
-  margin-left: 2em;
   color: green;
 }
 
 .story-user {
-  margin-left: 2em;
   display: block;
   color: orange;
 }
@@ -62,7 +64,7 @@ hr {
 }
 
 span {
-  margin: 0 1px;
+  margin: 0 3px;
 }
 
 p {
