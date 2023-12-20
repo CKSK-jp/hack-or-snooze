@@ -35,9 +35,9 @@ function generateStoryMarkup(story) {
   return $(`
       <li id="${story.storyId}">
         <div id="nice-format">
-          <span>
+          <div>
             ${starTag}
-          </span>
+          </div>
           <div>
             <a href="${story.url}" target="a_blank" class="story-link">
               ${story.title}
@@ -128,19 +128,14 @@ async function handleStarClick() {
   try {
     // update UI
     $(this).children().toggleClass('far fas');
-    const selectedStoryId = $(this).parent().attr('id');
+    const selectedStoryId = $(this).closest('li').attr('id');
     const favorited = $(this).children().hasClass('fas');
+    const selectedStory = storyList.stories.find(story => story.storyId === selectedStoryId);
 
     // make API call
-    if (favorited) {
-      await User.saveToFavorites(selectedStoryId, currentUser.username, currentUser.loginToken);
-    } else {
-      await User.removeFromFavorites(selectedStoryId, currentUser.username, currentUser.loginToken);
-    }
-
-    // re-render instance of User 
-    currentUser = await User.loginViaStoredCredentials(currentUser.loginToken, currentUser.username);
-    // console.log(currentUser);
+    (favorited)
+    ? await currentUser.saveToFavorites(selectedStoryId, selectedStory)
+    : await currentUser.removeFromFavorites(selectedStoryId);
 
   } catch (error) {
     console.error(error);
@@ -152,13 +147,7 @@ $body.on('click', '.star', handleStarClick);
 
 // initiates the removal for selected story
 async function removeUserStory() {
-  const storyId = ($(this).parent().attr('id'));
-  const storiesIndex = storyList.stories.map(story => story.storyId);
-  const storyIndex = storiesIndex.indexOf(storyId);
-  storyList.stories
-  // if (storyIndex !== -1) {
-  //   storyList.stories.splice(storyIndex, 1)
-  // }
+  const storyId = ($(this).closest('li').attr('id'));
   await storyList.removeStory(currentUser.loginToken, storyId);
 
   // re-render instance of User 

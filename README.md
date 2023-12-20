@@ -18,3 +18,8 @@ Section I Final Project
 - Nav bar functionality when user logs out and what changes and gets saved
 - completion of remove story function
 - css styling based on mock-up
+
+## Changelog 2023-12-20
+- Fixed issue where additional html container structure messed up storyId selector
+- Optimized user added favorite stories to use the currentUser instance instead of calling a static async user method
+- refactored removal logic to use filter instead
