@@ -23,3 +23,7 @@ Section I Final Project
 - Fixed issue where additional html container structure messed up storyId selector
 - Optimized user added favorite stories to use the currentUser instance instead of calling a static async user method
 - refactored removal logic to use filter instead
+
+### Hotfixes:
+- fixed issue where removed stories persisted until page reload
+- fixed issue where adding user story would not appear on main page until reload
