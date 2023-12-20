@@ -118,6 +118,7 @@ class StoryList {
           token
         }
       });
+      this.stories = this.stories.filter(story => story.storyId !== storyId)
     } catch (error) {
       throw error;
     }
@@ -223,26 +224,24 @@ class User {
   }
 
   // makes a post request to add story current user favorite list
-  static async saveToFavorites(storyId, username, token) {
-    const response = await axios({
-      url: `${BASE_URL}/users/${username}/favorites/${storyId}`,
+  async saveToFavorites(storyId, selectedStory) {
+    await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${storyId}`,
       method: "POST",
-      data: { token },
+      data: {token: this.loginToken}
     });
 
-    console.log(response);
-    return this.updateUserInstance(response, response.data.token);
+    this.favorites.push(selectedStory);
   }
 
   // makes a post request to remove story from user favorite list
-  static async removeFromFavorites(storyId, username, token) {
-    const response = await axios({
-      url: `${BASE_URL}/users/${username}/favorites/${storyId}`,
+  async removeFromFavorites(storyId) {
+    await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${storyId}`,
       method: "DELETE",
-      data: { token },
+      data: { token: this.loginToken },
     });
 
-    console.log(response);
-    return this.updateUserInstance(response, response.data.token);
+    this.favorites = this.favorites.filter(story => story.storyId !== storyId);
   }
 }
