@@ -90,7 +90,7 @@ class StoryList {
         }
       });
 
-      console.log(response);
+      // console.log(response);
       let { story } = response.data;
 
       const newStory = new Story({
@@ -109,7 +109,6 @@ class StoryList {
   }
 
   async removeStory(token, storyId) {
-    console.log('attempting to remove');
     try {
       await axios({
         url: `${BASE_URL}/stories/${storyId}`,
@@ -183,7 +182,6 @@ class User {
       data: { user: { username, password, name } },
     });
 
-    console.log(response);
     return this.updateUserInstance(response, response.data.token);
   }
 
@@ -200,7 +198,7 @@ class User {
       data: { user: { username, password } },
     });
 
-    console.log(response);
+    // console.log(response);
     return this.updateUserInstance(response, response.data.token);
   }
 
